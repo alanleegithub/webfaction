@@ -1,0 +1,58 @@
+{% extends "blog_base.html" %}
+{% block navbarhead %}
+<a class="blog-nav-item active" href="/">Home</a>
+{% if user.username == 'alanlee' or user.username == 'admin' %}
+<a class="blog-nav-item" href="/post/">Post</a>
+{% endif %}
+<a class="blog-nav-item" href="/about/">About</a>
+{% endblock %}
+
+{% block navbar%}
+{% if user.username == 'None' %}
+        <form class="navbar-form navbar-right navbar-top" role="form" action="/login/" method="post">{% csrf_token %}
+            <div class="form-group">
+              <input type="text" placeholder="Username" name='username' class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" name='password' class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
+{% else %}
+        <form class="navbar-form navbar-right navbar-top" role="form">
+            <div class="form-group">
+                 <span class="label label-primary">Welcome! {{user}}</span>
+                 <a href="/logout/" class="btn btn-success" role="button">Logout</a>
+            </div>
+        </form>
+{% endif %}
+{% endblock %}
+
+{% block head %}
+         <h1 class="blog-title">Welcome to Alan Blog</h1>
+         <p class="lead blog-description">Nothing special, just record my whiskey history.</p>
+{% endblock %}
+
+{% block main %}
+     {% for post in comments %}
+     <blockquote>
+         <p class="text-primary"> {{ post.body|safe }}</p>
+         <p class="text-muted"> {{ post.published_date }} by {{post.author}}</p>
+     </blockquote>
+     {% endfor %}
+     {% if user.username == 'None' %}
+     <fieldset disabled>
+     <p class="text-danger">Please sign in to leave comments!</p>
+     {% endif %}
+    <div class="blog-post">
+         <form role="form" method='post' action="/blogs/get/{{blog_id}}/comment/">{% csrf_token %}
+            <div class="form-group">
+                 {{form}}
+            </div>
+             <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
+         </form>
+    </div>
+    {% if user.username == 'None' %}
+    </fieldset>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+<html>
+<head>
+   <title>Login</title>
+   
+    {% load staticfiles %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+             <form action="/register/" method="post">{% csrf_token %}
+             {% if form.errors %}
+             <h2 style="color: red;">
+                 Please correct the error{{ form.errors|pluralize }} below.
+             </h2>
+             {% else %}
+             <h2>Please Sign Up <small>It's free and always will be.</small></h2>
+             {% endif %}
+             <hr class="colorgraph">
+             {% for field in form %}
+             {% for error in field.errors %}
+                 {{error}}
+             {% endfor %}
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                         {{field}}{{field.help_text}}
+                    </div>
+                </div>
+            </div>
+             {% endfor %}
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                     <input type="Submit" value="Register" class="btn btn-primary btn-block btn-lg"/>
+                </div>
+            </div>
+             </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
