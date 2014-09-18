@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 admin.autodiscover()
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     url(r'^$', include('blog.urls')),
@@ -12,4 +14,4 @@ urlpatterns = patterns('',
     url(r'^register/$', 'blog.views.register'),
     url(r'^about/$', 'blog.views.about'),
     url(r'^admin/', include(admin.site.urls)),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
