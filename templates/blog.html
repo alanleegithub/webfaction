@@ -36,7 +36,7 @@
 {% block main %}
             <div class="blog-post">
                  <p class="blog-post-title">{{ post.title }} </p>
-                 <p class="blog-post-meta">{{ post.published_date }} by <a href="#">{{post.author}}</a></p>
+                 <p class="blog-post-meta"><span class="glyphicon glyphicon-time"></span> {{ post.published_date }} by <a href="#">{{post.author}}</a></p>
                  <p> {{ post.body|safe|linebreaks }}</p>
                  {% if post.docfile %}
                 <div class="row">
