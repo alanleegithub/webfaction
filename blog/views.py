@@ -12,13 +12,17 @@ from forms import PostForm, CommentForm
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+from calendar import HTMLCalendar
+from datetime import date
+
 def blogs(request):
     if not(request.user.is_authenticated()):
        request.user.username = 'None'
 
     return render_to_response('blogs.html',
            {'blogs': Post.objects.all().order_by('-published_date'),
-            'user': request.user}, context_instance=RequestContext(request))
+            'user': request.user,
+            'calendar': HTMLCalendar(6).formatmonth(date.today().year, date.today().month), }, context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
     if not(request.user.is_authenticated()):
@@ -26,7 +30,8 @@ def blog(request, post_id = 1):
 
     return render_to_response('blog.html',
            {'post': Post.objects.get(id = post_id),
-            'user': request.user})
+            'user': request.user,
+            'calendar': HTMLCalendar(6).formatmonth(date.today().year, date.today().month), })
 
 def tagpage(request, tag):
     posts = Post.objects.filter(tags__name = tag)
