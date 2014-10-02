@@ -87,7 +87,7 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 def about(request):
-    return render_to_response('about.html')
+    return render_to_response('about.html', {'calendar': HTMLCalendar(6).formatmonth(date.today().year, date.today().month)})
 
 def comment(request, post_id = 1):
     form = CommentForm(request.POST or None)
