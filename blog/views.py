@@ -19,19 +19,25 @@ def blogs(request):
     if not(request.user.is_authenticated()):
        request.user.username = 'None'
 
+    c = HTMLCalendar(6).formatmonth(date.today().year, date.today().month)
+    c = c.replace('>%s</td>' % date.today().day,
+                  '><u><a href=#>%s</a></u></td>' % date.today().day)
     return render_to_response('blogs.html',
            {'blogs': Post.objects.all().order_by('-published_date'),
             'user': request.user,
-            'calendar': HTMLCalendar(6).formatmonth(date.today().year, date.today().month), }, context_instance=RequestContext(request))
+            'calendar': c, }, context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
     if not(request.user.is_authenticated()):
        request.user.username = 'None'
 
+    c = HTMLCalendar(6).formatmonth(date.today().year, date.today().month)
+    c = c.replace('>%s</td>' % date.today().day,
+                  '><u><a href=#>%s</a></u></td>' % date.today().day)
     return render_to_response('blog.html',
            {'post': Post.objects.get(id = post_id),
             'user': request.user,
-            'calendar': HTMLCalendar(6).formatmonth(date.today().year, date.today().month), })
+            'calendar': c, })
 
 def tagpage(request, tag):
     posts = Post.objects.filter(tags__name = tag)
@@ -87,7 +93,10 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 def about(request):
-    return render_to_response('about.html', {'calendar': HTMLCalendar(6).formatmonth(date.today().year, date.today().month)})
+    c = HTMLCalendar(6).formatmonth(date.today().year, date.today().month)
+    c = c.replace('>%s</td>' % date.today().day,
+                  '><u><a href=#>%s</a></u></td>' % date.today().day)
+    return render_to_response('about.html', {'calendar': c})
 
 def comment(request, post_id = 1):
     form = CommentForm(request.POST or None)
